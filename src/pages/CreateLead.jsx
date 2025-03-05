@@ -19,7 +19,6 @@ import {
 import { Typography } from "@mui/material";
 import TextFieldCustom from "../components/TextFieldCustom";
 import MultipleSelect from "../components/MultipleSelect";
-import SelectCustom from "../components/Selectcustom";
 import RadioCustom from "../components/RadioCustom";
 import MultilineTextField from "../components/MultilineTextField";
 import CheckboxCustom from "../components/CheckboxCustom";
