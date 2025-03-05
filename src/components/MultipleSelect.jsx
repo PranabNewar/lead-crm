@@ -9,7 +9,13 @@ import { Box, FormControl, useTheme } from "@mui/material";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-const MultipleSelect = ({ setFormData, labelName }) => {
+const MultipleSelect = ({
+  setFormData,
+  labelName,
+  formData,
+  name,
+  placeholder,
+}) => {
   const MenuProps = {
     PaperProps: {
       style: {
@@ -53,13 +59,14 @@ const MultipleSelect = ({ setFormData, labelName }) => {
   };
 
   return (
-    <FormControl sx={{ width: "100%" }}>
+    <FormControl sx={{ width: "100%" }} size="small">
       <InputLabel id="demo-multiple-chip-label">{labelName}</InputLabel>
       <Select
         labelId="demo-multiple-chip-label"
         id="demo-multiple-chip"
         multiple
-        value={personName}
+        placeholder={placeholder}
+        value={formData[name]}
         onChange={handleChange}
         input={<OutlinedInput id="select-multiple-chip" label={labelName} />}
         renderValue={(selected) => (

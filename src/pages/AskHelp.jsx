@@ -1,48 +1,85 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-
 const AskHelp = () => {
-  const [isActive, setIsActive] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [query, setQuery] = useState("");
+  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMENI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+  const getResponse = async () => {
+    setIsSubmitting(true);
+    setQuery("");
+    try {
+      const result = await model.generateContent([query]);
+      setIsSubmitting(false);
+      setResponse(result.response.text());
+      console.log(result.response.text(), "response ai");
+    } catch (err) {
+      setIsSubmitting(false);
+      console.log(err);
+    }
+  };
+  const handleSubmit = () => {
+    if (query !== "") {
+      getResponse();
+    }
+  };
   return (
-    <Box>
+    <Box sx={{ mt: 10 }}>
       <Container>
+        <Typography
+          component="h5"
+          variant="h5"
+          sx={{ fontWeight: "bold", mb: 2 }}
+        >
+          Ask for help
+        </Typography>
         <TextField
+          className={`${isSubmitting ? "animated-textarea a" : ""}`}
+          variant="outlined"
           sx={{
-            width: "100%",
-            transition: "border 0.4s ease",
-            borderRadius: "8px",
             "& .MuiOutlinedInput-root": {
-              transition: "border 0.4s ease",
-              borderRadius: "8px",
-              border: "2px solid transparent",
-              backgroundClip: "padding-box",
-              ...(isActive && {
-                borderImage:
-                  "linear-gradient(90deg, #ff7eb3, #ff758c, #ff6a88) 1",
-                animation: "borderAnimation 1s infinite alternate",
-              }),
-            },
-            "@keyframes borderAnimation": {
-              "0%": {
-                borderImageSource:
-                  "linear-gradient(90deg, #ff7eb3, #ff758c, #ff6a88)",
+              border: isSubmitting && "transparent", // Normal border
+              "&:hover fieldset": {
+                borderColor: isSubmitting && "transparent", // Hover border
               },
-              "100%": {
-                borderImageSource:
-                  "linear-gradient(90deg, #ff6a88, #ff758c, #ff7eb3)",
+              "&.Mui-focused fieldset": {
+                borderColor: isSubmitting && "transparent", // Focus border
+              },
+              "& fieldset": {
+                borderColor: isSubmitting && "transparent", // Default border
               },
             },
           }}
-          id="outlined-textarea"
-          label="Multiline Placeholder"
-          placeholder="Placeholder"
+          placeholder="Ask me anything..."
           multiline
+          fullWidth
+          minRows={4}
+          onChange={(e) => setQuery(e.target.value)}
         />
+
+        {response && (
+          <Box
+            sx={{
+              border: "1px solid #e0e0e0",
+              padding: 2,
+              mt: 4,
+              borderRadius: "8px",
+            }}
+          >
+            {response}
+          </Box>
+        )}
+
         <Button
-          onClick={() => setIsActive(!isActive)}
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          tras
           sx={{
             marginTop: 2,
+
             background: "#ff758c",
             color: "white",
             "&:hover": {

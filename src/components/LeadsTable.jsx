@@ -9,13 +9,9 @@ import Paper from "@mui/material/Paper";
 
 import { Button, Chip, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useLeads } from "../context/useLeads";
 
-const LeadsTable = () => {
-  const { leads } = useLeads();
+const LeadsTable = ({ leads }) => {
   const navigate = useNavigate();
-  const [FilteredLeads, setFilteredLeads] = useState(leads);
-  console.log("🚀 ~ BasicTable ~ leads:", leads);
   const handleView = (id) => {
     navigate(`/leads/${id}`);
   };
@@ -28,19 +24,29 @@ const LeadsTable = () => {
       <Stack></Stack>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell>Full name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Phone</TableCell>
-            <TableCell align="right">Lead Status</TableCell>
-            <TableCell align="right">Lead source</TableCell>
-            <TableCell align="right">Interested Products</TableCell>
+          <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+            <TableCell sx={{ fontWeight: "bold" }}>Full name</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Email
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Phone
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Lead Status
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Lead source
+            </TableCell>
+            {/* <TableCell align="right">Interested Products</TableCell> */}
 
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Action
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {FilteredLeads?.map((row) => (
+          {leads?.map((row) => (
             <TableRow
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -48,20 +54,34 @@ const LeadsTable = () => {
               <TableCell component="th" scope="row">
                 {row.fullName}
               </TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.phone}</TableCell>
-              <TableCell align="right">{row.leadStatus}</TableCell>
-              <TableCell align="right">{row.leadSource}</TableCell>
-              <TableCell align="right" sx={{ display: "flex", gap: "4px" }}>
+              <TableCell align="center">{row.email}</TableCell>
+              <TableCell align="center">{row.phone}</TableCell>
+              <TableCell align="center">
+                <Chip
+                  size="small"
+                  label={row.leadStatus}
+                  color={
+                    row.leadStatus === "new"
+                      ? "success"
+                      : row.leadStatus === "contacted"
+                      ? "info"
+                      : row.leadStatus === "qualified"
+                      ? "warning"
+                      : row.leadStatus === "lost" && "error"
+                  }
+                ></Chip>
+              </TableCell>
+              <TableCell align="center">{row.leadSource}</TableCell>
+              {/* <TableCell align="center" sx={{ display: "flex", gap: "4px" }}>
                 {row.interestedProducts?.map((prod, index) => (
                   <Chip
                     label={prod}
                     color={index % 2 == 0 ? "success" : "info"}
                   />
                 ))}
-              </TableCell>
+              </TableCell> */}
 
-              <TableCell align="right">
+              <TableCell align="center">
                 <Button variant="outlined" onClick={() => handleView(row.id)}>
                   {" "}
                   View

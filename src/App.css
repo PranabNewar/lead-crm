@@ -4,3 +4,48 @@
   padding: 2rem;
   text-align: center;
 } */
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.animated-textarea {
+  --border-angle: 0deg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  animation: border-angle-rotate 2s infinite linear;
+  position: relative;
+  border-radius: 8px;
+
+  border: 3px solid transparent !important;
+  box-shadow: 0px 4px 40px rgba(255, 0, 255, 0.276);
+
+  &.a {
+    background: linear-gradient(white, white) padding-box,
+      conic-gradient(
+          from var(--border-angle),
+          oklch(100% 100% 0deg),
+          oklch(100% 100% 45deg),
+          oklch(100% 100% 90deg),
+          oklch(100% 100% 135deg),
+          oklch(100% 100% 180deg),
+          oklch(100% 100% 225deg),
+          oklch(100% 100% 270deg),
+          oklch(100% 100% 315deg),
+          oklch(100% 100% 360deg)
+        )
+        border-box;
+  }
+}
+
+@keyframes border-angle-rotate {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
