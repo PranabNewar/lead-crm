@@ -12,7 +12,6 @@ import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import BusinessIcon from "@mui/icons-material/Business";
 import { Stack, Typography } from "@mui/material";
 const LeadShowDetailsCard = ({ lead }) => {
-  console.log("🚀 ~ LeadShowDetailsCard ~ lead:", lead);
   return (
     <Grid
       container

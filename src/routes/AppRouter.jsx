@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import Leads from "../pages/Leads";
 import App from "../App";
-import CreateLead from "../pages/CreateLead";
-import Lead from "../pages/Lead";
-import Home from "../pages/Home";
 import AskHelp from "../pages/AskHelp";
 
+import Home from "../pages/Home";
+import Lead from "../pages/Lead";
+import Leads from "../pages/Leads";
+import { lazy, Suspense } from "react";
+const CreateLead = lazy(() => import("../pages/CreateLead"));
 export const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +26,11 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: "create-lead",
-        element: <CreateLead />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <CreateLead />
+          </Suspense>
+        ),
       },
       {
         path: "ask-help",

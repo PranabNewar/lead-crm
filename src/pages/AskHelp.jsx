@@ -16,7 +16,6 @@ const AskHelp = () => {
       setQuery("");
       setIsSubmitting(false);
       setResponse(result.response.text());
-      console.log(result.response.text(), "response ai");
     } catch (err) {
       setQuery("");
       setIsSubmitting(false);

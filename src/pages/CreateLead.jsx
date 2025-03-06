@@ -28,16 +28,13 @@ import toast from "react-hot-toast";
 import { validateForm } from "../utils/fromValidation";
 
 const CreateLead = () => {
-  const { lead, dispatch } = useLeads();
-  console.log("🚀 ~ CreateLead ~ lead:", lead);
+  const { dispatch } = useLeads();
+
   const [formData, setFormData] = useState(leadInitialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  console.log("🚀 ~ CreateLead ~ errors:", errors);
-  console.log("🚀 ~ CreateLead LeadForm ~ formData:", formData);
 
   const handleSubmit = (e) => {
-    console.log("🚀 ~ handleSubmit ~ e:", e);
     e.preventDefault();
     if (!validateForm(formData, setErrors)) return;
     const newLead = {

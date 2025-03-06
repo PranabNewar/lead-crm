@@ -9,7 +9,6 @@ const SelectCustom = ({
   formData,
   placeholder,
 }) => {
-  console.log("🚀 ~ formData12:", formData[name]);
   return (
     <FormControl fullWidth size="small">
       <InputLabel id="demo-simple-select-label">Company size</InputLabel>

@@ -16,7 +16,6 @@ function DrawerAppBar(props) {
   const location = useLocation();
   const path = location.pathname;
 
-  console.log(path, "path");
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };

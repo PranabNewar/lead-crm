@@ -8,14 +8,12 @@ import LeadDetailsSkeleton from "../components/LeadDetailsSkeleton";
 const Lead = () => {
   const params = useParams();
   const { leads } = useLeads();
-  console.log("🚀 ~ Lead ~ leads:", leads);
+
   const { id } = params;
   const [lead, setLead] = useState(null);
-  console.log("🚀 ~ Lead ~ lead state:", lead);
-  console.log("🚀 ~ Lead ~ id:", id);
+
   useEffect(() => {
     const leadData = leads?.find((lead) => lead.id === id);
-    console.log(leadData, "leads 1");
     setLead(leadData);
   }, [id, leads]);
 

@@ -1,13 +1,5 @@
-import {
-  Box,
-  Skeleton,
-  Typography,
-  Grid,
-  Paper,
-  Chip,
-  Stack,
-} from "@mui/material";
-
+import { Box, Skeleton, Typography, Paper, Chip, Stack } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 const LeadDetailsSkeleton = () => {
   return (
     <Box sx={{ p: { xs: 2, md: 4 } }}>
