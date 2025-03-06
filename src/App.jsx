@@ -8,11 +8,13 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
+      {/* <ThemeProvider theme={theme}> */}
       <LeadsProvider>
         <Toaster />
         <DrawerAppBar />
         <Outlet />
       </LeadsProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 }

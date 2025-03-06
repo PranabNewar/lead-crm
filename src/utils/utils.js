@@ -14,7 +14,24 @@ export const prefferedContactMethodOption = [
   { value: "phone", label: "Phone" },
   { value: "whatsapp", label: "WhatsApp" },
 ];
-
+export const leadSourceOption = [
+  { value: "website", label: "Website" },
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone" },
+  { value: "refferal", label: "Refferal" },
+  { value: "social-media", label: "Social Media" },
+  { value: "other", label: "Other" },
+];
+export const intererestedProductOption = [
+  { value: "crm", label: "CRM" },
+  { value: "chatbot", label: "Chatbot" },
+  { value: "delivery", label: "Delivery" },
+  { value: "marketing", label: "Marketing" },
+  { value: "ecommerce", label: "E-commerce" },
+  { value: "support", label: "Customer Support" },
+  { value: "analytics", label: "Analytics" },
+  { value: "automation", label: "Automation" },
+];
 export const navItems = [
   {
     title: "Home",
@@ -30,7 +47,7 @@ export const navItems = [
   },
   {
     title: "Create lead",
-    path: "create-lead",
+    path: "/create-lead",
   },
 ];
 
@@ -54,4 +71,13 @@ export const filterStatusOption = [
   { value: "contacted", label: "Contacted" },
   { value: "qualified", label: "Qualified" },
   { value: "lost", label: "Lost" },
+];
+export const filterLeadSourceOption = [
+  { value: "all", label: "All" },
+  { value: "website", label: "Website" },
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone" },
+  { value: "referral", label: "Referral" },
+  { value: "social-media", label: "Social Media" },
+  { value: "other", label: "Other" },
 ];

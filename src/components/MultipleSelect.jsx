@@ -15,6 +15,8 @@ const MultipleSelect = ({
   formData,
   name,
   placeholder,
+  error,
+  option,
 }) => {
   const MenuProps = {
     PaperProps: {
@@ -24,18 +26,6 @@ const MultipleSelect = ({
       },
     },
   };
-  const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
 
   function getStyles(name, personName, theme) {
     return {
@@ -76,15 +66,17 @@ const MultipleSelect = ({
             ))}
           </Box>
         )}
+        error={!!error}
+        helperText={error}
         MenuProps={MenuProps}
       >
-        {names.map((name) => (
+        {option.map((name) => (
           <MenuItem
-            key={name}
-            value={name}
-            style={getStyles(name, personName, theme)}
+            key={name.label}
+            value={name.value}
+            style={getStyles(name.label, personName, theme)}
           >
-            {name}
+            {name.label}
           </MenuItem>
         ))}
       </Select>

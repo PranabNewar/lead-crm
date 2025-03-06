@@ -1,26 +1,22 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
 import { navItems } from "../utils/utils";
 
 function DrawerAppBar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const location = useLocation();
+  const path = location.pathname;
+
+  console.log(path, "path");
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -28,7 +24,16 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" position="fixed" color="info">
+      <AppBar
+        component="nav"
+        sx={{
+          backgroundColor: "white",
+          boxShadow: "none",
+          borderBottom: "1px solid #ececec",
+          color: "#393939",
+        }}
+        position="fixed"
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -42,13 +47,28 @@ function DrawerAppBar(props) {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+
+              display: { xs: "none", sm: "block" },
+            }}
           >
             CRM
           </Typography>
-          <Box sx={{ display: { xs: "none", sm: "flex", gap: "4px" } }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex", gap: "32px" },
+            }}
+          >
             {navItems?.map((item) => (
-              <Link key={item.title} to={item.path}>
+              <Link
+                style={{
+                  fontWeight: path === item.path && "500",
+                  color: path === item.path && "#1565c0",
+                }}
+                key={item.title}
+                to={item.path}
+              >
                 {item.title}
               </Link>
             ))}

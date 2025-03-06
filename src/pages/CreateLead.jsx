@@ -7,11 +7,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { top100Films } from "../utils/leadSourceOption";
-
 import Grid from "@mui/material/Grid2";
 import {
   companySizeOption,
+  filterLeadSourceOption,
+  intererestedProductOption,
   leadInitialState,
   leadStatusOption,
   prefferedContactMethodOption,
@@ -19,22 +19,27 @@ import {
 import { Typography } from "@mui/material";
 import TextFieldCustom from "../components/TextFieldCustom";
 import MultipleSelect from "../components/MultipleSelect";
+import SelectCustom from "../components/Selectcustom";
 import RadioCustom from "../components/RadioCustom";
 import MultilineTextField from "../components/MultilineTextField";
 import CheckboxCustom from "../components/CheckboxCustom";
 import { useLeads } from "../context/useLeads";
 import toast from "react-hot-toast";
+import { validateForm } from "../utils/fromValidation";
 
 const CreateLead = () => {
   const { lead, dispatch } = useLeads();
   console.log("🚀 ~ CreateLead ~ lead:", lead);
   const [formData, setFormData] = useState(leadInitialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  console.log("🚀 ~ CreateLead ~ errors:", errors);
   console.log("🚀 ~ CreateLead LeadForm ~ formData:", formData);
 
   const handleSubmit = (e) => {
     console.log("🚀 ~ handleSubmit ~ e:", e);
     e.preventDefault();
+    if (!validateForm(formData, setErrors)) return;
     const newLead = {
       ...formData,
       id: Math.random().toString(36).substring(2, 11),
@@ -59,7 +64,11 @@ const CreateLead = () => {
           mx: "auto",
         }}
       >
-        <Typography variant="h4" component="h4">
+        <Typography
+          variant="h4"
+          sx={{ fontSize: { xs: "2rem", sm: "2.125rem" } }}
+          component="h4"
+        >
           Create new lead
         </Typography>
 
@@ -85,6 +94,7 @@ const CreateLead = () => {
               formData={formData}
               placeHolder={"Enter your full name"}
               required={true}
+              error={errors.fullName}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -96,6 +106,7 @@ const CreateLead = () => {
               formData={formData}
               placeHolder={"Enter your email"}
               required={true}
+              error={errors.email}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -107,6 +118,7 @@ const CreateLead = () => {
               formData={formData}
               placeHolder={"Enter your phone number"}
               required={true}
+              error={errors.phone}
             />
           </Grid>
 
@@ -118,24 +130,29 @@ const CreateLead = () => {
               formData={formData}
               placeHolder={"Enter your company name"}
               required={true}
+              error={errors.companyName}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
-            {/* search */}
             <Autocomplete
               size="small"
               disablePortal
-              options={top100Films}
+              options={filterLeadSourceOption}
               value={formData.leadSource}
-              // sx={{ width: 300 }}
               onChange={(event, newValue) =>
                 setFormData((prev) => ({
                   ...prev,
-                  leadSource: newValue.value, // newValue contains the selected option
+                  leadSource: newValue ? newValue.value : "",
                 }))
               }
               renderInput={(params) => (
-                <TextField {...params} label="Lead source" />
+                <TextField
+                  {...params}
+                  label="Lead source"
+                  required
+                  error={Boolean(errors.leadSource)}
+                  helperText={errors.leadSource}
+                />
               )}
             />
           </Grid>
@@ -145,6 +162,7 @@ const CreateLead = () => {
               labelName="Interested products"
               formData={formData}
               name={"interestedProducts"}
+              option={intererestedProductOption}
               placeHolder={"Select interested products"}
             />
           </Grid>
@@ -164,6 +182,8 @@ const CreateLead = () => {
               name="leadStatus"
               option={leadStatusOption}
               labelName="Lead Status"
+              required={true}
+              errormsg={errors.leadStatus}
               formData={formData}
             />
           </Grid>
@@ -186,7 +206,7 @@ const CreateLead = () => {
             />
           </Grid>
           {/* Checkbox */}
-          <Grid size={8}>
+          <Grid size={12}>
             <CheckboxCustom
               setFormData={setFormData}
               name="newsletter"

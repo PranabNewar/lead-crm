@@ -9,6 +9,7 @@ const TextFieldCustom = ({
   formData,
   required = false,
   type = "text",
+  error,
 }) => {
   return (
     <TextField
@@ -24,8 +25,8 @@ const TextFieldCustom = ({
       onChange={(e) =>
         setFormData((prev) => ({ ...prev, [name]: e.target.value }))
       }
-      // error={!!errors.name}
-      // helperText={errors.name}
+      error={!!error}
+      helperText={error}
     />
   );
 };

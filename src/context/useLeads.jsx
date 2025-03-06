@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
+import { leadsDataDummy } from "../utils/leadsData";
 
 const LeadsContext = createContext();
 
@@ -15,22 +16,7 @@ const leadsReducer = (state, action) => {
 // Provider Component
 export const LeadsProvider = ({ children }) => {
   const initialState = {
-    leads: [
-      {
-        id: 121344343434,
-        fullName: "Pranab Newar",
-        companyName: "ABC Pvt. Ltd.",
-        email: "abc@gmail.com",
-        phone: 12345755,
-        leadSource: "referral",
-        companySize: "",
-        prefferedContactMethod: "",
-        additionalNotes: "",
-        leadStatus: "new",
-        interestedProducts: ["tech", "crm"],
-        newsletter: false,
-      },
-    ],
+    leads: leadsDataDummy,
   };
 
   const [state, dispatch] = useReducer(leadsReducer, initialState);

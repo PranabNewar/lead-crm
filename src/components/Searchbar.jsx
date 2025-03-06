@@ -8,21 +8,24 @@ const Searchbar = ({ serachQuery, setSearchQuery }) => {
       placeholder="Search..."
       variant="outlined"
       margin="none"
+      size="small"
       value={serachQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
       sx={{
-        backgroundColor: "#ffffff", // Blue background
+        backgroundColor: "#ffffff",
         borderRadius: 1,
+        fontSize: { xs: "12px", sm: "14px", md: "16px" },
 
         "& .MuiOutlinedInput-root": {
           color: "#1a083c",
-          "& fieldset": { border: "1px solid #e2e8f0" }, // Remove border
+          "& fieldset": { border: "1px solid #e2e8f0" },
           "&:hover fieldset": { border: "1px solid #e2e8f0" },
-          // "&.Mui-focused fieldset": { border: "none" },
+
           paddingLeft: "10px",
         },
         "& .MuiInputBase-input": {
           color: "#1a083c",
+          fontSize: { xs: "12px", sm: "14px", md: "16px" },
         },
         "& .MuiSvgIcon-root": {
           color: "#1a083c",

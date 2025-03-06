@@ -10,13 +10,15 @@ const AskHelp = () => {
 
   const getResponse = async () => {
     setIsSubmitting(true);
-    setQuery("");
+
     try {
       const result = await model.generateContent([query]);
+      setQuery("");
       setIsSubmitting(false);
       setResponse(result.response.text());
       console.log(result.response.text(), "response ai");
     } catch (err) {
+      setQuery("");
       setIsSubmitting(false);
       console.log(err);
     }
@@ -39,6 +41,7 @@ const AskHelp = () => {
         <TextField
           className={`${isSubmitting ? "animated-textarea a" : ""}`}
           variant="outlined"
+          value={query}
           sx={{
             "& .MuiOutlinedInput-root": {
               border: isSubmitting && "transparent", // Normal border
@@ -76,10 +79,10 @@ const AskHelp = () => {
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          tras
           sx={{
+            minWidth: "100px",
             marginTop: 2,
-
+            textTransform: "none",
             background: "#ff758c",
             color: "white",
             "&:hover": {
