@@ -1,24 +1,39 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, Stack, TextField, Typography } from "@mui/material";
+import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined';
 import React, { useState } from "react";
+import ResponseContainer from "../components/ResponseContainer";
 const AskHelp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [response, setResponse] = useState(null);
+  const [responses, setResponses] = useState([]);
+  console.log(responses,"responses")
   const [query, setQuery] = useState("");
+  const [isTextareaActive,setIsTextareaActive]=useState(false)
+  const [isTyping,setIsTyping] = useState(false)
+
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMENI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const getResponse = async () => {
     setIsSubmitting(true);
+    setIsTyping(false)
 
     try {
       const result = await model.generateContent([query]);
+      setIsTextareaActive(false)
       setQuery("");
       setIsSubmitting(false);
-      setResponse(result.response.text());
+      setResponses((prev)=>([...prev,{  id: Math.random().toString(36).substring(2, 11),
+        response:result.response.text(),
+        created_at: Date.now(),
+        
+      }]));
+      setIsTextareaActive(false)
     } catch (err) {
+      setIsTextareaActive(false)
       setQuery("");
       setIsSubmitting(false);
+      setIsTextareaActive(false)
       console.log(err);
     }
   };
@@ -28,8 +43,8 @@ const AskHelp = () => {
     }
   };
   return (
-    <Box sx={{ mt: 10 }}>
-      <Container>
+    <Box sx={{ mt: 10 , }}>
+      <Container maxWidth="md">
         <Typography
           component="h5"
           variant="h5"
@@ -37,45 +52,63 @@ const AskHelp = () => {
         >
           Ask for help
         </Typography>
+        <Box component={"div"}
+              className={`${isSubmitting ? "animated-textarea a" : ""}`}
+        sx={{border:"1px solid #e8e8e8",
+          display:"flex",
+          flexDirection:"column",
+          justifyContent:"space-between",
+          borderRadius:"8px",
+          minHeight: isTextareaActive ? "180px" : "60px", 
+          transition: "min-height 0.3s ease-in-out", 
+          padding: "8px", 
+  
+        }}
+      
+        onFocus={()=>setIsTextareaActive(true)}
+    
+        >
+
+     
         <TextField
-          className={`${isSubmitting ? "animated-textarea a" : ""}`}
+    
           variant="outlined"
+        
           value={query}
           sx={{
+            width:"100%",
             "& .MuiOutlinedInput-root": {
-              border: isSubmitting && "transparent", // Normal border
+              border: "transparent", // Normal border
               "&:hover fieldset": {
-                borderColor: isSubmitting && "transparent", // Hover border
+                borderColor: "transparent", // Hover border
               },
               "&.Mui-focused fieldset": {
-                borderColor: isSubmitting && "transparent", // Focus border
+                borderColor: "transparent", // Focus border
               },
               "& fieldset": {
-                borderColor: isSubmitting && "transparent", // Default border
+                borderColor: "transparent", // Default border
               },
+              // "& textarea": {
+              //   minHeight: isTextareaActive ? "150px" : "60px", // Example height
+              //   transition: "min-height 0.3s ease-in-out", // Smooth transition for height
+              // },
             },
           }}
           placeholder="Ask me anything..."
           multiline
-          fullWidth
+          fullWidth 
+        
           minRows={4}
-          onChange={(e) => setQuery(e.target.value)}
+      
+          onChange={(e) => {setQuery(e.target.value)
+            setIsTyping(true)}
+
+          }
         />
 
-        {response && (
-          <Box
-            sx={{
-              border: "1px solid #e0e0e0",
-              padding: 2,
-              mt: 4,
-              borderRadius: "8px",
-            }}
-          >
-            {response}
-          </Box>
-        )}
-
-        <Button
+        <Stack component={"div"} sx={{textAlign:"left",width:"100%"}}> <Typography sx={{fontSize:"14px"}} variant="subtitle1">{isTyping?<Stack variant="span" sx={{display:"flex",alignItems:"center", flexDirection:"row",gap:1}}><CircularProgress size="14px" color="success" /> Gemini is thinking...</Stack>: isSubmitting?<Stack variant="span" sx={{display:"flex",alignItems:"center", flexDirection:"row",gap:1}}><CircularProgress size="14px" color="secondary" /> Gemini is Typing...</Stack>:""}</Typography></Stack>
+           </Box>
+           <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
           sx={{
@@ -91,6 +124,11 @@ const AskHelp = () => {
         >
           Ask
         </Button>
+
+        
+      {responses?.length>0 && <ResponseContainer responses={responses}/>}
+
+        
       </Container>
     </Box>
   );

@@ -15,7 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
+  font-size: 1em;
   animation: border-angle-rotate 2s infinite linear;
   position: relative;
   border-radius: 8px;
