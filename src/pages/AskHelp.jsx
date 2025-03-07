@@ -10,17 +10,19 @@ const AskHelp = () => {
   const [query, setQuery] = useState("");
   const [isTextareaActive,setIsTextareaActive]=useState(false)
   const [isTyping,setIsTyping] = useState(false)
+  const [isShowGradient,setIsShowGradient] = useState(false)
 
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMENI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const getResponse = async () => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     setIsTyping(false)
 
     try {
       const result = await model.generateContent([query]);
       setIsTextareaActive(false)
+      setIsShowGradient(false)
       setQuery("");
       setIsSubmitting(false);
       setResponses((prev)=>([...prev,{  id: Math.random().toString(36).substring(2, 11),
@@ -30,6 +32,7 @@ const AskHelp = () => {
       }]));
       setIsTextareaActive(false)
     } catch (err) {
+      setIsShowGradient(false)
       setIsTextareaActive(false)
       setQuery("");
       setIsSubmitting(false);
@@ -53,7 +56,7 @@ const AskHelp = () => {
           Ask for help
         </Typography>
         <Box component={"div"}
-              className={`${isSubmitting ? "animated-textarea a" : ""}`}
+              className={`${isShowGradient ? "animated-textarea a" : ""}`}
         sx={{border:"1px solid #e8e8e8",
           display:"flex",
           flexDirection:"column",
@@ -101,7 +104,9 @@ const AskHelp = () => {
           minRows={4}
       
           onChange={(e) => {setQuery(e.target.value)
-            setIsTyping(true)}
+            setIsTyping(true)
+            if(!isShowGradient){setIsShowGradient(true)}
+          }
 
           }
         />
